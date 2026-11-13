@@ -7,6 +7,7 @@ signal machine_started(machine: Machine)
 var machine: Machine
 var camera: OrbitCamera
 var controller: MachineController
+var failures: FailureSystem
 
 var _session: LevelSession
 
@@ -30,6 +31,10 @@ func start(seed: int) -> void:
 	controller = MachineController.new()
 	controller.machine = machine
 	machine.add_child(controller)
+	failures = FailureSystem.new()
+	machine.add_child(failures)
+	failures.setup(machine, seed)
+	machine.part_failed.connect(_show_failure)
 	camera.target = machine.core()
 	camera.pivot = origin
 	camera.make_current()
@@ -44,3 +49,29 @@ func stop() -> void:
 		machine.free()
 		machine = null
 		controller = null
+		failures = null
+
+
+## Tints the failed part for a second and floats a caption above it for two.
+func _show_failure(part: PartBody, mode: int, _time: float) -> void:
+	var color := SimHud.failure_color(mode)
+	var caption := Label3D.new()
+	caption.text = "%s: %s" % [part.def.display_name, SimHud.failure_text(part, mode)]
+	caption.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	caption.no_depth_test = true
+	caption.fixed_size = true
+	caption.pixel_size = 0.0018
+	caption.font_size = 40
+	caption.outline_size = 10
+	caption.modulate = color
+	machine.add_child(caption)
+	caption.global_position = part.global_position + Vector3(0, 1.2, 0)
+	get_tree().create_timer(2.0).timeout.connect(func() -> void:
+		if is_instance_valid(caption):
+			caption.queue_free())
+	if part.state == PartBody.State.DESTROYED:
+		return
+	PartVisuals.set_overlay(part, Color(color, 0.6))
+	get_tree().create_timer(1.0).timeout.connect(func() -> void:
+		if is_instance_valid(part):
+			PartVisuals.set_overlay(part, Color.TRANSPARENT))

@@ -93,6 +93,23 @@ func detach(part: PartBody) -> void:
 	part.on_detached()
 
 
+## Applies a failure reported by the FailureSystem (or caused by an explosion nearby).
+func apply_failure(part: PartBody, mode: int) -> void:
+	if not part.is_attached():
+		return
+	match mode:
+		FailureMode.MALFUNCTION:
+			if part.state != PartBody.State.OK:
+				return
+			part.state = PartBody.State.MALFUNCTIONED
+			part.apply_malfunction()
+		FailureMode.BREAK:
+			detach(part)
+		FailureMode.EXPLODE:
+			explode(part)
+	part_failed.emit(part, mode, sim_time)
+
+
 ## Blows the part up. Until explosions are implemented this only detaches it.
 func explode(part: PartBody) -> void:
 	detach(part)

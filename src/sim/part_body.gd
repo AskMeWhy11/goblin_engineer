@@ -12,6 +12,9 @@ var machine: Machine
 ## -1..1, written by MachineController every physics tick.
 var input_value := 0.0
 
+var _prev_velocity := Vector3.ZERO
+var _has_prev_velocity := false
+
 
 ## Still part of the machine's failure bookkeeping (may be cut off from the core).
 func is_attached() -> bool:
@@ -29,6 +32,19 @@ func get_load() -> float:
 
 func set_input(value: float) -> void:
 	input_value = value
+
+
+## Extra load from a sudden velocity change since the previous call (design doc 6.2).
+## Call exactly once per physics tick.
+func measure_shake(dt: float) -> float:
+	var velocity := linear_velocity
+	var result := 0.0
+	if _has_prev_velocity and dt > 0.0:
+		var accel := (velocity - _prev_velocity).length() / dt
+		result = clampf((accel - SimTuning.SHAKE_FREE) / SimTuning.SHAKE_REF, 0.0, SimTuning.SHAKE_MAX)
+	_prev_velocity = velocity
+	_has_prev_velocity = true
+	return result
 
 
 ## Called once when the part malfunctions. Types override this with their own effect.

@@ -14,6 +14,7 @@ var last_seed: int = -1
 var build_mode: BuildMode
 var build_hud: BuildHud
 var sim_mode: SimMode
+var sim_hud: SimHud
 
 var _pause: PauseMenu
 
@@ -32,6 +33,10 @@ func _ready() -> void:
 	sim_mode = SimMode.new()
 	add_child(sim_mode)
 	sim_mode.setup(self)
+	sim_hud = SimHud.new()
+	add_child(sim_hud)
+	sim_hud.setup(self)
+	sim_mode.machine_started.connect(sim_hud.track)
 	_pause = PauseMenu.new()
 	add_child(_pause)
 	_apply_mode()
@@ -63,6 +68,7 @@ func enter_sim(seed: int = -1) -> void:
 func _apply_mode() -> void:
 	build_mode.set_active(mode == Mode.BUILD)
 	build_hud.visible = mode == Mode.BUILD
+	sim_hud.visible = mode == Mode.SIM
 
 
 func _unhandled_input(event: InputEvent) -> void:

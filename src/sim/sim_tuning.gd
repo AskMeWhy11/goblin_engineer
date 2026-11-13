@@ -19,6 +19,15 @@ const JOINT_KIND := &"generic_6dof_locked"
 ## returns to centre).
 const HINGE_MOTOR_SIGN := -1.0
 
+## Shake: sudden velocity change of a part, as acceleration in m/s^2.
+## shake = clamp((a - SHAKE_FREE) / SHAKE_REF, 0, SHAKE_MAX) is added to the part's load.
+## A velocity jump of 1.5 m/s in one tick (90 m/s^2) is free; 4 m/s adds one unit of load.
+const SHAKE_FREE := 90.0
+const SHAKE_REF := 150.0
+const SHAKE_MAX := 20.0
+## Seconds after launch during which shake is ignored (the machine settles on its wheels).
+const SHAKE_GRACE := 1.0
+
 const MOTOR_SPEED := 12.0          # rad/s at full input
 const MOTOR_MAX_IMPULSE := 40.0
 const WHEEL_BRAKE_IMPULSE := 40.0

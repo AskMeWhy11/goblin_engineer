@@ -15,6 +15,8 @@ func _open_with_cart() -> Machine:
 	_session.build_mode.selected_tier = 2
 	_session.build_mode.try_place(Vector3i(0, 1, 0))
 	_session.enter_sim(1)
+	# These tests are about driving; random failures would make them flaky.
+	_session.sim_mode.failures.set_physics_process(false)
 	_session.sim_mode.controller.key_source = func(key: Key) -> bool: return _keys.has(key)
 	return _session.sim_mode.machine
 
