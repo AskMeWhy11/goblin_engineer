@@ -35,5 +35,6 @@ tiers = Array[ExtResource("3_fhmsy")]([SubResource("Resource_36y3h"), SubResourc
 activation = 1
 default_key_positive = 4194321
 default_key_negative = 4194319
+base_face = Vector3i(-1, 0, 0)
 explosion_power = 200.0
 explosion_radius = 2.0

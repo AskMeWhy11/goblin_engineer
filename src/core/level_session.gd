@@ -13,6 +13,7 @@ var blueprint: Blueprint
 var last_seed: int = -1
 var build_mode: BuildMode
 var build_hud: BuildHud
+var sim_mode: SimMode
 
 var _pause: PauseMenu
 
@@ -28,6 +29,9 @@ func _ready() -> void:
 	build_hud = BuildHud.new()
 	add_child(build_hud)
 	build_hud.setup(self, build_mode)
+	sim_mode = SimMode.new()
+	add_child(sim_mode)
+	sim_mode.setup(self)
 	_pause = PauseMenu.new()
 	add_child(_pause)
 	_apply_mode()
@@ -40,6 +44,7 @@ func launch_blocker() -> String:
 
 func enter_build() -> void:
 	mode = Mode.BUILD
+	sim_mode.stop()
 	_apply_mode()
 	mode_changed.emit(mode)
 
@@ -51,6 +56,7 @@ func enter_sim(seed: int = -1) -> void:
 	last_seed = seed if seed >= 0 else int(randi() & 0x7FFFFFFF)
 	mode = Mode.SIM
 	_apply_mode()
+	sim_mode.start(last_seed)
 	mode_changed.emit(mode)
 
 

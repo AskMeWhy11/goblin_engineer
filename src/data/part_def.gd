@@ -17,6 +17,9 @@ enum Activation { NONE, HOLD, PRESS }
 @export var default_key_negative: Key = KEY_NONE
 ## Local normals of faces that accept a connection; empty means all six.
 @export var attach_faces: Array[Vector3i]
+## Local normal of the face the part is mounted by (the editor turns it towards the part it is
+## placed on). Zero = no preferred mount face.
+@export var base_face: Vector3i
 ## Explosion impulse in N*s; 0 means the part never explodes.
 @export var explosion_power: float
 @export var explosion_radius: float

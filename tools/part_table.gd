@@ -4,6 +4,7 @@ class_name PartTable
 ##
 ## rates: failures per second at "Хлам" quality — x malfunction, y break, z explode.
 ## boom: [impulse N*s, radius m]. faces: local mount normals, [] = all six.
+## base: local normal of the mount face (defaults to the only face when there is one).
 ## shape: box | sphere | cyl_x | cyl_y | cyl_z; size: box extents, or (radius, height, _) for cylinders.
 
 ## Quality tiers shared by every part except the core.
@@ -52,7 +53,7 @@ const PARTS := [
 	{
 		id = &"steering_hinge", name = "Рулевой шарнир", price = 40, mass = 6.0,
 		rates = Vector3(0.015, 0.010, 0.003), boom = [200.0, 2.0], activation = A_HOLD,
-		always_loaded = false, faces = [], keys = [KEY_RIGHT, KEY_LEFT],
+		always_loaded = false, faces = [], base = Vector3i.LEFT, keys = [KEY_RIGHT, KEY_LEFT],
 		shape = "cyl_y", size = Vector3(0.4, 0.96, 0.0), color = Color(0.25, 0.5, 0.8),
 		script = "res://src/sim/parts/steering_hinge.gd",
 	},

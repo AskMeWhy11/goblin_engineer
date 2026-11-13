@@ -35,5 +35,6 @@ tiers = Array[ExtResource("3_5trlc")]([SubResource("Resource_lwtms"), SubResourc
 activation = 2
 default_key_positive = 67
 attach_faces = Array[Vector3i]([Vector3i(-1, 0, 0)])
+base_face = Vector3i(-1, 0, 0)
 explosion_power = 1200.0
 explosion_radius = 5.0

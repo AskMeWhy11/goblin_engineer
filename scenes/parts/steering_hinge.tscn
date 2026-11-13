@@ -1,23 +1,26 @@
 [gd_scene format=3]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kuhwt"]
+[ext_resource type="Script" path="res://src/sim/part_body.gd" id="1_ptsbq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sh0ru"]
 albedo_color = Color(0.25, 0.5, 0.8, 1)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_ptsbq"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_c1dbp"]
 top_radius = 0.4
 bottom_radius = 0.4
 height = 0.96
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_sh0ru"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j0md7"]
 height = 0.96
 radius = 0.4
 
-[node name="SteeringHinge" type="RigidBody3D" unique_id=1983291418]
+[node name="SteeringHinge" type="RigidBody3D" unique_id=1803297132]
 mass = 6.0
+script = ExtResource("1_ptsbq")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=733802160]
-material_override = SubResource("StandardMaterial3D_kuhwt")
-mesh = SubResource("CylinderMesh_ptsbq")
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=165598971]
+material_override = SubResource("StandardMaterial3D_sh0ru")
+mesh = SubResource("CylinderMesh_c1dbp")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=1334812272]
-shape = SubResource("CylinderShape3D_sh0ru")
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=807412940]
+shape = SubResource("CylinderShape3D_j0md7")

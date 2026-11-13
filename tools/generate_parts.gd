@@ -36,6 +36,8 @@ func _build_def(row: Dictionary, scene: PackedScene) -> PartDef:
 	def.default_key_positive = keys[0]
 	def.default_key_negative = keys[1]
 	def.attach_faces.assign(row.faces)
+	var default_base: Vector3i = row.faces[0] if row.faces.size() == 1 else Vector3i.ZERO
+	def.base_face = row.get("base", default_base)
 	def.explosion_power = row.boom[0]
 	def.explosion_radius = row.boom[1]
 	def.removable = row.get("removable", true)
@@ -57,8 +59,9 @@ func _build_scene(row: Dictionary) -> PackedScene:
 	body.name = String(row.id).to_pascal_case()
 	body.mass = row.mass
 	var script_path: String = row.get("script", "")
-	if not script_path.is_empty() and ResourceLoader.exists(script_path):
-		body.set_script(load(script_path))
+	if script_path.is_empty() or not ResourceLoader.exists(script_path):
+		script_path = "res://src/sim/part_body.gd"
+	body.set_script(load(script_path))
 
 	var material := StandardMaterial3D.new()
 	material.albedo_color = row.color

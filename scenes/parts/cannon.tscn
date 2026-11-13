@@ -1,47 +1,50 @@
 [gd_scene format=3]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ld8b"]
+[ext_resource type="Script" path="res://src/sim/part_body.gd" id="1_gc1e3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y0dih"]
 albedo_color = Color(0.2, 0.2, 0.22, 1)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_gc1e3"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_xsmcx"]
 top_radius = 0.28
 bottom_radius = 0.28
 height = 0.96
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_y0dih"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fqksq"]
 height = 0.96
 radius = 0.28
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xsmcx"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_84tln"]
 albedo_color = Color(0.15, 0.15, 0.15, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_fqksq"]
+[sub_resource type="BoxMesh" id="BoxMesh_fjj1l"]
 size = Vector3(0.3, 0.3, 0.3)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_84tln"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3xoa"]
 albedo_color = Color(0.95, 0.95, 0.9, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_fjj1l"]
+[sub_resource type="BoxMesh" id="BoxMesh_ihmfu"]
 size = Vector3(0.25, 0.25, 0.12)
 
-[node name="Cannon" type="RigidBody3D" unique_id=1746561778]
+[node name="Cannon" type="RigidBody3D" unique_id=2106182522]
 mass = 30.0
+script = ExtResource("1_gc1e3")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=2047900205]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=3986117]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_8ld8b")
-mesh = SubResource("CylinderMesh_gc1e3")
+material_override = SubResource("StandardMaterial3D_y0dih")
+mesh = SubResource("CylinderMesh_xsmcx")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=974539029]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1335094832]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-shape = SubResource("CylinderShape3D_y0dih")
+shape = SubResource("CylinderShape3D_fqksq")
 
-[node name="Mount" type="MeshInstance3D" parent="." unique_id=805299716]
+[node name="Mount" type="MeshInstance3D" parent="." unique_id=1959545449]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0, 0)
-material_override = SubResource("StandardMaterial3D_xsmcx")
-mesh = SubResource("BoxMesh_fqksq")
-
-[node name="Tip" type="MeshInstance3D" parent="." unique_id=1273633460]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 material_override = SubResource("StandardMaterial3D_84tln")
 mesh = SubResource("BoxMesh_fjj1l")
+
+[node name="Tip" type="MeshInstance3D" parent="." unique_id=1369254375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+material_override = SubResource("StandardMaterial3D_c3xoa")
+mesh = SubResource("BoxMesh_ihmfu")

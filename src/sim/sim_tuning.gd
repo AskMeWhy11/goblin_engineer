@@ -13,3 +13,7 @@ class_name SimTuning
 const PHYSICS_TICKS := 60
 ## Rigid connection between neighbouring parts: Generic6DOFJoint3D with default (locked) limits.
 const JOINT_KIND := &"generic_6dof_locked"
+
+
+static func make_rigid_joint() -> Joint3D:
+	return Generic6DOFJoint3D.new()
