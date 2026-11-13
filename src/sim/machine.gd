@@ -163,22 +163,27 @@ func explode(part: PartBody) -> void:
 	_blast_world(center, power, radius)
 
 
+## Runs `action` after `seconds`. The timer is a child node, so it dies with the machine and never
+## fires into freed parts.
+func after(seconds: float, action: Callable) -> void:
+	var timer := Timer.new()
+	timer.one_shot = true
+	timer.wait_time = seconds
+	timer.timeout.connect(func() -> void:
+		timer.queue_free()
+		action.call())
+	add_child(timer)
+	timer.start()
+
+
 func _push(body: RigidBody3D, center: Vector3, impulse: float) -> void:
 	var direction := body.global_position - center
 	direction = direction.normalized() if direction.length() > 0.01 else Vector3.UP
 	body.apply_central_impulse(direction * impulse)
 
 
-## The fuse is a child node, so it dies with the machine and never fires into freed parts.
 func _light_fuse(part: PartBody) -> void:
-	var fuse := Timer.new()
-	fuse.one_shot = true
-	fuse.wait_time = SimTuning.CHAIN_FUSE
-	fuse.timeout.connect(func() -> void:
-		fuse.queue_free()
-		explode(part))
-	add_child(fuse)
-	fuse.start()
+	after(SimTuning.CHAIN_FUSE, explode.bind(part))
 
 
 ## Pushes loose bodies of the level (cargo, projectiles) and damages destructible targets.

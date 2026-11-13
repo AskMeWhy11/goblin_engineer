@@ -68,12 +68,8 @@ func _show_failure(part: PartBody, mode: int, _time: float) -> void:
 	caption.modulate = color
 	machine.add_child(caption)
 	caption.global_position = part.global_position + Vector3(0, 1.2, 0)
-	get_tree().create_timer(2.0).timeout.connect(func() -> void:
-		if is_instance_valid(caption):
-			caption.queue_free())
+	machine.after(2.0, caption.queue_free)
 	if part.state == PartBody.State.DESTROYED:
 		return
 	PartVisuals.set_overlay(part, Color(color, 0.6))
-	get_tree().create_timer(1.0).timeout.connect(func() -> void:
-		if is_instance_valid(part):
-			PartVisuals.set_overlay(part, Color.TRANSPARENT))
+	machine.after(1.0, PartVisuals.set_overlay.bind(part, Color.TRANSPARENT))
