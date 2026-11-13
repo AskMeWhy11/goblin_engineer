@@ -6,6 +6,7 @@ signal machine_started(machine: Machine)
 
 var machine: Machine
 var camera: OrbitCamera
+var controller: MachineController
 
 var _session: LevelSession
 
@@ -26,6 +27,9 @@ func start(seed: int) -> void:
 	machine = MachineAssembler.build(_session.blueprint, PartCatalog.defs, Transform3D(Basis.IDENTITY, origin))
 	machine.rng.seed = seed
 	add_child(machine)
+	controller = MachineController.new()
+	controller.machine = machine
+	machine.add_child(controller)
 	camera.target = machine.core()
 	camera.pivot = origin
 	camera.make_current()
@@ -39,3 +43,4 @@ func stop() -> void:
 		camera.target = null
 		machine.free()
 		machine = null
+		controller = null

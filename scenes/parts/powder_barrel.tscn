@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/sim/part_body.gd" id="1_nmgun"]
+[ext_resource type="Script" path="res://src/sim/parts/powder_barrel.gd" id="1_nmgun"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27k7g"]
 albedo_color = Color(0.5, 0.12, 0.1, 1)
@@ -14,13 +14,13 @@ height = 0.9
 height = 0.9
 radius = 0.42
 
-[node name="PowderBarrel" type="RigidBody3D" unique_id=1548685289]
+[node name="PowderBarrel" type="RigidBody3D" unique_id=1726238139]
 mass = 15.0
 script = ExtResource("1_nmgun")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=2073438932]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1134169887]
 material_override = SubResource("StandardMaterial3D_27k7g")
 mesh = SubResource("CylinderMesh_3vlc8")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=1023184254]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=514580199]
 shape = SubResource("CylinderShape3D_w0st6")

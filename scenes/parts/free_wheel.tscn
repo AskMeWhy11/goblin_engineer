@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/sim/part_body.gd" id="1_oorqi"]
+[ext_resource type="Script" path="res://src/sim/parts/free_wheel.gd" id="1_oorqi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ukysv"]
 albedo_color = Color(0.55, 0.55, 0.55, 1)
@@ -20,20 +20,20 @@ albedo_color = Color(0.15, 0.15, 0.15, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_43sqk"]
 size = Vector3(0.3, 0.3, 0.3)
 
-[node name="FreeWheel" type="RigidBody3D" unique_id=349266426]
+[node name="FreeWheel" type="RigidBody3D" unique_id=1444696135]
 mass = 8.0
 script = ExtResource("1_oorqi")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=361517252]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=628777394]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_ukysv")
 mesh = SubResource("CylinderMesh_s807u")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=509356778]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=817291770]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CylinderShape3D_kbol8")
 
-[node name="Mount" type="MeshInstance3D" parent="." unique_id=652805551]
+[node name="Mount" type="MeshInstance3D" parent="." unique_id=912295191]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0, 0)
 material_override = SubResource("StandardMaterial3D_y0yuh")
 mesh = SubResource("BoxMesh_43sqk")

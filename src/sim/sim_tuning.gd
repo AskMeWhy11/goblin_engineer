@@ -14,6 +14,24 @@ const PHYSICS_TICKS := 60
 ## Rigid connection between neighbouring parts: Generic6DOFJoint3D with default (locked) limits.
 const JOINT_KIND := &"generic_6dof_locked"
 
+## Multiplier that turns "positive angular speed around the hinge axis" into the engine's
+## hinge-motor sign. Verified by tests/test_part_behaviours.gd (cart drives forward, steering
+## returns to centre).
+const HINGE_MOTOR_SIGN := -1.0
+
+const MOTOR_SPEED := 12.0          # rad/s at full input
+const MOTOR_MAX_IMPULSE := 40.0
+const WHEEL_BRAKE_IMPULSE := 40.0
+const STEER_LIMIT := 0.6109        # 35 degrees
+const STEER_GAIN := 8.0            # 1/s, how hard the hinge chases its target angle
+const STEER_SPEED := 3.0           # rad/s
+const STEER_MAX_IMPULSE := 30.0
+const ROCKET_THRUST := 600.0       # N
+const CANNON_RELOAD := 2.0         # s
+const CANNONBALL_MASS := 5.0       # kg
+const CANNONBALL_SPEED := 40.0     # m/s
+const LOOSE_JOINT_PLAY := 0.26     # rad, about 15 degrees
+
 
 static func make_rigid_joint() -> Joint3D:
 	return Generic6DOFJoint3D.new()

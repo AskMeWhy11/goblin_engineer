@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/sim/part_body.gd" id="1_ptsbq"]
+[ext_resource type="Script" path="res://src/sim/parts/steering_hinge.gd" id="1_ptsbq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sh0ru"]
 albedo_color = Color(0.25, 0.5, 0.8, 1)
@@ -14,13 +14,13 @@ height = 0.96
 height = 0.96
 radius = 0.4
 
-[node name="SteeringHinge" type="RigidBody3D" unique_id=1803297132]
+[node name="SteeringHinge" type="RigidBody3D" unique_id=1811437820]
 mass = 6.0
 script = ExtResource("1_ptsbq")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=165598971]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1590530754]
 material_override = SubResource("StandardMaterial3D_sh0ru")
 mesh = SubResource("CylinderMesh_c1dbp")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=807412940]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1222104888]
 shape = SubResource("CylinderShape3D_j0md7")

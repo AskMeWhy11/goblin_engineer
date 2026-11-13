@@ -93,6 +93,11 @@ func detach(part: PartBody) -> void:
 	part.on_detached()
 
 
+## Blows the part up. Until explosions are implemented this only detaches it.
+func explode(part: PartBody) -> void:
+	detach(part)
+
+
 func _remove_links_of(part: PartBody) -> void:
 	for link in _links.duplicate():
 		if link[0] == part or link[1] == part:

@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/sim/part_body.gd" id="1_2h431"]
+[ext_resource type="Script" path="res://src/sim/parts/whistle.gd" id="1_2h431"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wqq74"]
 albedo_color = Color(0.6, 0.3, 0.75, 1)
@@ -12,13 +12,13 @@ height = 0.92
 [sub_resource type="SphereShape3D" id="SphereShape3D_86sib"]
 radius = 0.46
 
-[node name="Whistle" type="RigidBody3D" unique_id=1061482144]
+[node name="Whistle" type="RigidBody3D" unique_id=1408783900]
 mass = 60.0
 script = ExtResource("1_2h431")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1425469660]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=453049503]
 material_override = SubResource("StandardMaterial3D_wqq74")
 mesh = SubResource("SphereMesh_8bglx")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=357012398]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1492552958]
 shape = SubResource("SphereShape3D_86sib")

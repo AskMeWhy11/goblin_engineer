@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/sim/part_body.gd" id="1_ypasv"]
+[ext_resource type="Script" path="res://src/sim/parts/core.gd" id="1_ypasv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mt4gh"]
 albedo_color = Color(0.35, 0.65, 0.25, 1)
@@ -11,13 +11,13 @@ size = Vector3(0.96, 0.96, 0.96)
 [sub_resource type="BoxShape3D" id="BoxShape3D_uk4hb"]
 size = Vector3(0.96, 0.96, 0.96)
 
-[node name="Core" type="RigidBody3D" unique_id=811131507]
+[node name="Core" type="RigidBody3D" unique_id=583264057]
 mass = 20.0
 script = ExtResource("1_ypasv")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=406832390]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=871166703]
 material_override = SubResource("StandardMaterial3D_mt4gh")
 mesh = SubResource("BoxMesh_2e11q")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=2081164398]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1143931494]
 shape = SubResource("BoxShape3D_uk4hb")
