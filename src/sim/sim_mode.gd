@@ -9,6 +9,7 @@ var camera: OrbitCamera
 var controller: MachineController
 var failures: FailureSystem
 var objective: Objective
+var sfx: Sfx
 
 var _session: LevelSession
 
@@ -16,6 +17,10 @@ var _session: LevelSession
 func setup(session: LevelSession) -> void:
 	_session = session
 	objective = session.level_root.get_node_or_null("Objective") as Objective
+	sfx = Sfx.new()
+	add_child(sfx)
+	if objective != null:
+		objective.completed.connect(sfx.play.bind(&"win"))
 	camera = OrbitCamera.new()
 	camera.extra_drag_button = MOUSE_BUTTON_RIGHT
 	camera.distance = 16.0
@@ -37,6 +42,8 @@ func start(seed: int) -> void:
 	machine.add_child(failures)
 	failures.setup(machine, seed)
 	machine.part_failed.connect(_show_failure)
+	machine.exploded.connect(_show_explosion)
+	machine.sound_requested.connect(func(kind: StringName) -> void: sfx.play(kind))
 	var active_controller := controller
 	machine.pilot().died.connect(func() -> void: active_controller.enabled = false)
 	camera.target = machine.core()
@@ -60,6 +67,12 @@ func stop() -> void:
 			objective.reset()
 
 
+## Fireball sized by the blast radius, sound louder for stronger blasts.
+func _show_explosion(at: Vector3, power: float, radius: float) -> void:
+	Fx.explosion(machine, at, radius)
+	sfx.play(&"explode", clampf(linear_to_db(power / 2500.0), -14.0, 0.0))
+
+
 ## Tints the failed part for a second and floats a caption above it for two.
 func _show_failure(part: PartBody, mode: int, _time: float) -> void:
 	var color := SimHud.failure_color(mode)
@@ -75,6 +88,11 @@ func _show_failure(part: PartBody, mode: int, _time: float) -> void:
 	machine.add_child(caption)
 	caption.global_position = part.global_position + Vector3(0, 1.2, 0)
 	machine.after(2.0, caption.queue_free)
+	if mode == FailureMode.MALFUNCTION:
+		Fx.smoke(part)
+		sfx.play(&"malfunction", -6.0)
+	elif mode == FailureMode.BREAK:
+		sfx.play(&"break")
 	if part.state == PartBody.State.DESTROYED:
 		return
 	PartVisuals.set_overlay(part, Color(color, 0.6))

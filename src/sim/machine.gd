@@ -6,6 +6,8 @@ extends Node3D
 signal part_failed(part: PartBody, mode: int, time: float)
 ## For effects: an explosion with real blast power happened.
 signal exploded(position: Vector3, power: float, radius: float)
+## For sounds that are not failures (a cannon shot).
+signal sound_requested(kind: StringName)
 
 var parts: Array[PartBody] = []
 var sim_time := 0.0

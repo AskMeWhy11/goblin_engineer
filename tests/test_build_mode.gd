@@ -82,11 +82,11 @@ func test_clear_keeps_core_only() -> void:
 
 func test_launch_blocked_for_core_only_machine() -> void:
 	var s := _open()
-	assert_eq(s.launch_blocker(), "Риск ниже порога: 0.0 из 0.5 %/с")
+	assert_eq(s.launch_blocker(), "Риск ниже порога: 0.0 из 2.0 %/с")
 	s.enter_sim()
 	assert_eq(s.mode, LevelSession.Mode.BUILD)
 	assert_true(s.build_hud.launch_button.disabled)
-	assert_eq(s.build_hud.blocker_label.text, "Риск ниже порога: 0.0 из 0.5 %/с")
+	assert_eq(s.build_hud.blocker_label.text, "Риск ниже порога: 0.0 из 2.0 %/с")
 	_close()
 
 
@@ -95,10 +95,13 @@ func test_hud_follows_blueprint() -> void:
 	s.build_mode.selected_part = _def(&"motor_wheel")
 	s.build_mode.selected_tier = 2
 	s.build_mode.try_place(Vector3i(1, 0, 0))
+	assert_true(s.build_hud.launch_button.disabled, "one junk wheel is 1.8 %/s, below 2.0")
+	assert_eq(s.build_hud.blocker_label.text, "Риск ниже порога: 1.8 из 2.0 %/с")
+	s.build_mode.try_place(Vector3i(-1, 0, 0))
 	assert_true(not s.build_hud.launch_button.disabled)
 	assert_eq(s.build_hud.blocker_label.text, "")
-	assert_eq(s.build_hud.budget_label.text, "Бюджет: 18 / 250")
-	assert_eq(s.build_hud.risk_bar.caption, "Риск: 1.8 из 0.5 %/с")
+	assert_eq(s.build_hud.budget_label.text, "Бюджет: 36 / 250")
+	assert_eq(s.build_hud.risk_bar.caption, "Риск: 3.5 из 2.0 %/с")
 	_close()
 
 

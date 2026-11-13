@@ -46,6 +46,7 @@ func _fire() -> void:
 	machine.add_child(ball)
 	ball.global_position = global_position + axis * 0.9
 	ball.linear_velocity = linear_velocity + axis * SimTuning.CANNONBALL_SPEED
+	machine.sound_requested.emit(&"shot")
 	apply_central_impulse(-axis * SimTuning.CANNONBALL_MASS * SimTuning.CANNONBALL_SPEED)
 
 
