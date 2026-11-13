@@ -7,11 +7,13 @@ config_version=5
 [application]
 
 config/name="Goblin Engineer"
+run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
 
 PartCatalog="*res://src/core/part_catalog.gd"
+Game="*res://src/core/game.gd"
 
 [display]
 

@@ -1,11 +1,12 @@
-extends SceneTree
-## Headless test runner: godot --headless --path . --script res://tests/run_tests.gd
+extends Node
+## Headless test runner scene script (tests/run_tests.tscn), started by tools/run_tests.ps1.
+## Runs as a scene, not with --script, so that project autoloads exist.
 ## Optional filter: set env TEST_FILTER to a substring of the test file name.
 
 const TEST_DIR := "res://tests"
 
 
-func _initialize() -> void:
+func _ready() -> void:
 	_run.call_deferred()
 
 
@@ -30,7 +31,7 @@ func _run() -> void:
 			if not method_name.begins_with("test_"):
 				continue
 			var test: TestCase = script.new()
-			test.tree = self
+			test.tree = get_tree()
 			await test.call(method_name)
 			var label := "%s::%s" % [file, method_name]
 			if test.assert_count == 0:
@@ -43,4 +44,4 @@ func _run() -> void:
 					print("FAIL %s: %s" % [label, f])
 				failed += 1
 	print("%d passed, %d failed" % [passed, failed])
-	quit(1 if failed > 0 else 0)
+	get_tree().quit(1 if failed > 0 else 0)

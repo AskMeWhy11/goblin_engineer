@@ -9,7 +9,7 @@ $importLog = Join-Path $root "tests\last_import.log"
 Start-Process $godot -ArgumentList "--headless", "--path", "`"$root`"", "--import", "--log-file", "`"$importLog`"" -Wait | Out-Null
 
 if (Test-Path $log) { Remove-Item $log }
-$p = Start-Process $godot -ArgumentList "--headless", "--path", "`"$root`"", "--script", "res://tests/run_tests.gd", "--log-file", "`"$log`"" -Wait -PassThru
+$p = Start-Process $godot -ArgumentList "--headless", "--path", "`"$root`"", "--log-file", "`"$log`"", "res://tests/run_tests.tscn" -Wait -PassThru
 if (-not (Test-Path $log)) { Write-Output "No test log produced"; exit 1 }
 $text = Get-Content $log
 $text | Where-Object { $_ -match "^(FAIL|SCRIPT ERROR|ERROR|\s+at:|\d+ passed)" -or $env:TEST_VERBOSE }

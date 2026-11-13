@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/level_def.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/levels/level_01.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"level_01"
+title = "Доедь"
+task_text = "Довези испытателя до флага"
+scene = ExtResource("2")
+budget = 250
+risk_min = 0.005
+allowed_parts = Array[StringName]([&"block", &"ballast", &"free_wheel", &"motor_wheel", &"steering_hinge", &"whistle"])
+volume_min = Vector3i(-3, 0, -3)
+volume_max = Vector3i(3, 4, 3)
