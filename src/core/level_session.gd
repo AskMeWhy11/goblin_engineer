@@ -11,9 +11,10 @@ var level: LevelDef
 var level_root: Node3D
 var blueprint: Blueprint
 var last_seed: int = -1
+var build_mode: BuildMode
+var build_hud: BuildHud
 
 var _pause: PauseMenu
-var _mode_label: Label
 
 
 func _ready() -> void:
@@ -21,13 +22,20 @@ func _ready() -> void:
 	blueprint = Game.blueprint_for(level)
 	level_root = level.scene.instantiate()
 	add_child(level_root)
+	build_mode = BuildMode.new()
+	add_child(build_mode)
+	build_mode.setup(self)
+	build_hud = BuildHud.new()
+	add_child(build_hud)
+	build_hud.setup(self, build_mode)
 	_pause = PauseMenu.new()
 	add_child(_pause)
-	var hud := CanvasLayer.new()
-	add_child(hud)
-	_mode_label = UiKit.label(hud, "", 18, Color(1, 1, 1, 0.6))
-	_mode_label.position = Vector2(12, 8)
 	_apply_mode()
+
+
+## "" when the current machine may launch, otherwise the reason.
+func launch_blocker() -> String:
+	return RiskCalculator.launch_blocker(RiskCalculator.evaluate(blueprint, PartCatalog.defs), level)
 
 
 func enter_build() -> void:
@@ -36,8 +44,10 @@ func enter_build() -> void:
 	mode_changed.emit(mode)
 
 
-## seed < 0 picks a new random seed.
+## seed < 0 picks a new random seed. Does nothing while the machine is not allowed to launch.
 func enter_sim(seed: int = -1) -> void:
+	if not launch_blocker().is_empty():
+		return
 	last_seed = seed if seed >= 0 else int(randi() & 0x7FFFFFFF)
 	mode = Mode.SIM
 	_apply_mode()
@@ -45,7 +55,8 @@ func enter_sim(seed: int = -1) -> void:
 
 
 func _apply_mode() -> void:
-	_mode_label.text = "Сборка" if mode == Mode.BUILD else "Запуск"
+	build_mode.set_active(mode == Mode.BUILD)
+	build_hud.visible = mode == Mode.BUILD
 
 
 func _unhandled_input(event: InputEvent) -> void:

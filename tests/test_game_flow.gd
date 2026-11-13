@@ -88,6 +88,13 @@ func test_level_session_switches_modes() -> void:
 	assert_eq(session.mode, LevelSession.Mode.BUILD)
 	assert_true(session.level_root.get_node_or_null("BuildOrigin") != null)
 	assert_true(session.level_root.get_node_or_null("Objective") != null)
+	# A junk motor wheel is enough to pass the level 1 risk threshold.
+	var wheel := BlueprintEntry.new()
+	wheel.part_id = &"motor_wheel"
+	wheel.cell = Vector3i(1, 0, 0)
+	wheel.tier = 2
+	session.blueprint.clear()
+	session.blueprint.add(wheel)
 	session.enter_sim(123)
 	assert_eq(session.mode, LevelSession.Mode.SIM)
 	assert_eq(session.last_seed, 123)
