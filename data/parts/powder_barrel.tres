@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="PartDef" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/parts/powder_barrel.tscn" id="1_78jvm"]
+[ext_resource type="Script" path="res://src/data/part_def.gd" id="2_ihxs7"]
+[ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_svbf1"]
+
+[sub_resource type="Resource" id="Resource_og3gq"]
+script = ExtResource("3_svbf1")
+display_name = "Добротная"
+rates = Vector3(0.0004, 0.00032000002, 0.0008)
+strength_margin = 8.0
+
+[sub_resource type="Resource" id="Resource_outuq"]
+script = ExtResource("3_svbf1")
+display_name = "Сойдёт"
+price_mult = 0.6
+rates = Vector3(0.003, 0.0024, 0.006)
+strength_margin = 3.0
+
+[sub_resource type="Resource" id="Resource_rrgve"]
+script = ExtResource("3_svbf1")
+display_name = "Хлам"
+price_mult = 0.3
+rates = Vector3(0.01, 0.008, 0.02)
+strength_margin = 0.8
+
+[resource]
+script = ExtResource("2_ihxs7")
+id = &"powder_barrel"
+display_name = "Пороховая бочка"
+scene = ExtResource("1_78jvm")
+base_price = 50
+mass = 15.0
+tiers = Array[ExtResource("3_svbf1")]([SubResource("Resource_og3gq"), SubResource("Resource_outuq"), SubResource("Resource_rrgve")])
+activation = 2
+always_loaded = true
+default_key_positive = 66
+explosion_power = 2500.0
+explosion_radius = 7.0

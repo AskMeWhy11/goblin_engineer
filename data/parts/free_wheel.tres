@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="PartDef" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/parts/free_wheel.tscn" id="1_p128u"]
+[ext_resource type="Script" path="res://src/data/part_def.gd" id="2_beku6"]
+[ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_v3nq5"]
+
+[sub_resource type="Resource" id="Resource_pcg2b"]
+script = ExtResource("3_v3nq5")
+display_name = "Добротная"
+rates = Vector3(0.0004, 0.0004, 8.0000005e-05)
+strength_margin = 8.0
+
+[sub_resource type="Resource" id="Resource_y2h30"]
+script = ExtResource("3_v3nq5")
+display_name = "Сойдёт"
+price_mult = 0.6
+rates = Vector3(0.003, 0.003, 0.0006)
+strength_margin = 3.0
+
+[sub_resource type="Resource" id="Resource_s8nl1"]
+script = ExtResource("3_v3nq5")
+display_name = "Хлам"
+price_mult = 0.3
+rates = Vector3(0.01, 0.01, 0.002)
+strength_margin = 0.8
+
+[resource]
+script = ExtResource("2_beku6")
+id = &"free_wheel"
+display_name = "Колесо"
+scene = ExtResource("1_p128u")
+base_price = 20
+mass = 8.0
+tiers = Array[ExtResource("3_v3nq5")]([SubResource("Resource_pcg2b"), SubResource("Resource_y2h30"), SubResource("Resource_s8nl1")])
+always_loaded = true
+attach_faces = Array[Vector3i]([Vector3i(-1, 0, 0)])
+explosion_power = 200.0
+explosion_radius = 2.0

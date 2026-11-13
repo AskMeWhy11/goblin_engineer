@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_atqwd"]
+albedo_color = Color(0.62, 0.45, 0.28, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kgqeg"]
+size = Vector3(0.96, 0.96, 0.96)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7210g"]
+size = Vector3(0.96, 0.96, 0.96)
+
+[node name="Block" type="RigidBody3D" unique_id=901538097]
+mass = 5.0
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=253367869]
+material_override = SubResource("StandardMaterial3D_atqwd")
+mesh = SubResource("BoxMesh_kgqeg")
+
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1296840037]
+shape = SubResource("BoxShape3D_7210g")

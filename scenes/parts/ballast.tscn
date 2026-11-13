@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n1hf0"]
+albedo_color = Color(0.3, 0.3, 0.33, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yjq1j"]
+size = Vector3(0.96, 0.96, 0.96)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xmqjd"]
+size = Vector3(0.96, 0.96, 0.96)
+
+[node name="Ballast" type="RigidBody3D" unique_id=1670931565]
+mass = 40.0
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=423502168]
+material_override = SubResource("StandardMaterial3D_n1hf0")
+mesh = SubResource("BoxMesh_yjq1j")
+
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1022696655]
+shape = SubResource("BoxShape3D_xmqjd")

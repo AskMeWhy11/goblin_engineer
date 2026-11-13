@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kueyw"]
+albedo_color = Color(0.5, 0.12, 0.1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nmgun"]
+top_radius = 0.42
+bottom_radius = 0.42
+height = 0.9
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_27k7g"]
+height = 0.9
+radius = 0.42
+
+[node name="PowderBarrel" type="RigidBody3D" unique_id=38775941]
+mass = 15.0
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1143670916]
+material_override = SubResource("StandardMaterial3D_kueyw")
+mesh = SubResource("CylinderMesh_nmgun")
+
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=81710144]
+shape = SubResource("CylinderShape3D_27k7g")

@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="PartDef" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/parts/motor_wheel.tscn" id="1_4uqm5"]
+[ext_resource type="Script" path="res://src/data/part_def.gd" id="2_2knht"]
+[ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_rogfc"]
+
+[sub_resource type="Resource" id="Resource_xfvgn"]
+script = ExtResource("3_rogfc")
+display_name = "Добротная"
+rates = Vector3(0.0008, 0.0004, 0.00024)
+strength_margin = 8.0
+
+[sub_resource type="Resource" id="Resource_pceca"]
+script = ExtResource("3_rogfc")
+display_name = "Сойдёт"
+price_mult = 0.6
+rates = Vector3(0.006, 0.003, 0.0018000001)
+strength_margin = 3.0
+
+[sub_resource type="Resource" id="Resource_46x03"]
+script = ExtResource("3_rogfc")
+display_name = "Хлам"
+price_mult = 0.3
+rates = Vector3(0.02, 0.01, 0.006)
+strength_margin = 0.8
+
+[resource]
+script = ExtResource("2_2knht")
+id = &"motor_wheel"
+display_name = "Моторное колесо"
+scene = ExtResource("1_4uqm5")
+base_price = 60
+mass = 12.0
+tiers = Array[ExtResource("3_rogfc")]([SubResource("Resource_xfvgn"), SubResource("Resource_pceca"), SubResource("Resource_46x03")])
+activation = 1
+default_key_positive = 4194320
+default_key_negative = 4194322
+attach_faces = Array[Vector3i]([Vector3i(-1, 0, 0)])
+explosion_power = 500.0
+explosion_radius = 3.0

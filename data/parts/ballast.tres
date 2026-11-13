@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="PartDef" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/parts/ballast.tscn" id="1_cfp1b"]
+[ext_resource type="Script" path="res://src/data/part_def.gd" id="2_ca1fn"]
+[ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_ddved"]
+
+[sub_resource type="Resource" id="Resource_naxqe"]
+script = ExtResource("3_ddved")
+display_name = "Добротная"
+rates = Vector3(0, 0.00024, 0)
+strength_margin = 8.0
+
+[sub_resource type="Resource" id="Resource_bidi1"]
+script = ExtResource("3_ddved")
+display_name = "Сойдёт"
+price_mult = 0.6
+rates = Vector3(0, 0.0018000001, 0)
+strength_margin = 3.0
+
+[sub_resource type="Resource" id="Resource_8a1rr"]
+script = ExtResource("3_ddved")
+display_name = "Хлам"
+price_mult = 0.3
+rates = Vector3(0, 0.006, 0)
+strength_margin = 0.8
+
+[resource]
+script = ExtResource("2_ca1fn")
+id = &"ballast"
+display_name = "Балласт"
+scene = ExtResource("1_cfp1b")
+base_price = 15
+mass = 40.0
+tiers = Array[ExtResource("3_ddved")]([SubResource("Resource_naxqe"), SubResource("Resource_bidi1"), SubResource("Resource_8a1rr")])
+always_loaded = true

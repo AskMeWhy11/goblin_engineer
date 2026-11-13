@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wm8ee"]
+albedo_color = Color(0.35, 0.65, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ypasv"]
+size = Vector3(0.96, 0.96, 0.96)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mt4gh"]
+size = Vector3(0.96, 0.96, 0.96)
+
+[node name="Core" type="RigidBody3D" unique_id=86735185]
+mass = 20.0
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1087436119]
+material_override = SubResource("StandardMaterial3D_wm8ee")
+mesh = SubResource("BoxMesh_ypasv")
+
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1116295125]
+shape = SubResource("BoxShape3D_mt4gh")

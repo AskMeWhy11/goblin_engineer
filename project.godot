@@ -9,6 +9,10 @@ config_version=5
 config/name="Goblin Engineer"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
+[autoload]
+
+PartCatalog="*res://src/core/part_catalog.gd"
+
 [display]
 
 window/size/viewport_width=1600

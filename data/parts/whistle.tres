@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="PartDef" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/parts/whistle.tscn" id="1_ysa0q"]
+[ext_resource type="Script" path="res://src/data/part_def.gd" id="2_l30rx"]
+[ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_kd13m"]
+
+[sub_resource type="Resource" id="Resource_a6hwy"]
+script = ExtResource("3_kd13m")
+display_name = "Добротная"
+rates = Vector3(0.00059999997, 0.0004, 0.0016)
+strength_margin = 8.0
+
+[sub_resource type="Resource" id="Resource_ywl6e"]
+script = ExtResource("3_kd13m")
+display_name = "Сойдёт"
+price_mult = 0.6
+rates = Vector3(0.0045000003, 0.003, 0.012)
+strength_margin = 3.0
+
+[sub_resource type="Resource" id="Resource_hp85a"]
+script = ExtResource("3_kd13m")
+display_name = "Хлам"
+price_mult = 0.3
+rates = Vector3(0.015, 0.01, 0.04)
+strength_margin = 0.8
+
+[resource]
+script = ExtResource("2_l30rx")
+id = &"whistle"
+display_name = "Свистелка"
+scene = ExtResource("1_ysa0q")
+base_price = 120
+mass = 60.0
+tiers = Array[ExtResource("3_kd13m")]([SubResource("Resource_a6hwy"), SubResource("Resource_ywl6e"), SubResource("Resource_hp85a")])
+always_loaded = true
+explosion_power = 2500.0
+explosion_radius = 7.0

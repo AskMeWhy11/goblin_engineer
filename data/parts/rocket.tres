@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="PartDef" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/parts/rocket.tscn" id="1_v1m41"]
+[ext_resource type="Script" path="res://src/data/part_def.gd" id="2_pxibe"]
+[ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_87bdd"]
+
+[sub_resource type="Resource" id="Resource_5h0a1"]
+script = ExtResource("3_87bdd")
+display_name = "Добротная"
+rates = Vector3(0.0008, 0.0004, 0.00059999997)
+strength_margin = 8.0
+
+[sub_resource type="Resource" id="Resource_eprem"]
+script = ExtResource("3_87bdd")
+display_name = "Сойдёт"
+price_mult = 0.6
+rates = Vector3(0.006, 0.003, 0.0045000003)
+strength_margin = 3.0
+
+[sub_resource type="Resource" id="Resource_uoa7t"]
+script = ExtResource("3_87bdd")
+display_name = "Хлам"
+price_mult = 0.3
+rates = Vector3(0.02, 0.01, 0.015)
+strength_margin = 0.8
+
+[resource]
+script = ExtResource("2_pxibe")
+id = &"rocket"
+display_name = "Ракета"
+scene = ExtResource("1_v1m41")
+base_price = 80
+mass = 10.0
+tiers = Array[ExtResource("3_87bdd")]([SubResource("Resource_5h0a1"), SubResource("Resource_eprem"), SubResource("Resource_uoa7t")])
+activation = 1
+default_key_positive = 4194325
+attach_faces = Array[Vector3i]([Vector3i(-1, 0, 0)])
+explosion_power = 1200.0
+explosion_radius = 5.0

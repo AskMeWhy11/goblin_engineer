@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="PartDef" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/parts/cannon.tscn" id="1_l0nlk"]
+[ext_resource type="Script" path="res://src/data/part_def.gd" id="2_rtt3j"]
+[ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_5trlc"]
+
+[sub_resource type="Resource" id="Resource_lwtms"]
+script = ExtResource("3_5trlc")
+display_name = "Добротная"
+rates = Vector3(0.001, 0.00032000002, 0.00048)
+strength_margin = 8.0
+
+[sub_resource type="Resource" id="Resource_x6squ"]
+script = ExtResource("3_5trlc")
+display_name = "Сойдёт"
+price_mult = 0.6
+rates = Vector3(0.0075000003, 0.0024, 0.0036000002)
+strength_margin = 3.0
+
+[sub_resource type="Resource" id="Resource_dmidi"]
+script = ExtResource("3_5trlc")
+display_name = "Хлам"
+price_mult = 0.3
+rates = Vector3(0.025, 0.008, 0.012)
+strength_margin = 0.8
+
+[resource]
+script = ExtResource("2_rtt3j")
+id = &"cannon"
+display_name = "Пушка"
+scene = ExtResource("1_l0nlk")
+base_price = 100
+mass = 30.0
+tiers = Array[ExtResource("3_5trlc")]([SubResource("Resource_lwtms"), SubResource("Resource_x6squ"), SubResource("Resource_dmidi")])
+activation = 2
+default_key_positive = 67
+attach_faces = Array[Vector3i]([Vector3i(-1, 0, 0)])
+explosion_power = 1200.0
+explosion_radius = 5.0
