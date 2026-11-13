@@ -26,25 +26,25 @@ albedo_color = Color(0.95, 0.95, 0.9, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_kwdyo"]
 size = Vector3(0.25, 0.25, 0.12)
 
-[node name="Rocket" type="RigidBody3D" unique_id=1399724730]
+[node name="Rocket" type="RigidBody3D" unique_id=1981765387]
 mass = 10.0
 script = ExtResource("1_lfehe")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1479174238]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1824251648]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_cd0el")
 mesh = SubResource("CylinderMesh_23x8e")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=748446593]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1311512444]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("CylinderShape3D_m5w62")
 
-[node name="Mount" type="MeshInstance3D" parent="." unique_id=1947699335]
+[node name="Mount" type="MeshInstance3D" parent="." unique_id=236915171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0, 0)
 material_override = SubResource("StandardMaterial3D_u7gvn")
 mesh = SubResource("BoxMesh_hryri")
 
-[node name="Tip" type="MeshInstance3D" parent="." unique_id=2081774646]
+[node name="Tip" type="MeshInstance3D" parent="." unique_id=2129843703]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 material_override = SubResource("StandardMaterial3D_2y4c1")
 mesh = SubResource("BoxMesh_kwdyo")

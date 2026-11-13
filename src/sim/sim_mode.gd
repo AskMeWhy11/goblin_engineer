@@ -35,6 +35,8 @@ func start(seed: int) -> void:
 	machine.add_child(failures)
 	failures.setup(machine, seed)
 	machine.part_failed.connect(_show_failure)
+	var active_controller := controller
+	machine.pilot().died.connect(func() -> void: active_controller.enabled = false)
 	camera.target = machine.core()
 	camera.pivot = origin
 	camera.make_current()

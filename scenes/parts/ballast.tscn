@@ -11,13 +11,13 @@ size = Vector3(0.96, 0.96, 0.96)
 [sub_resource type="BoxShape3D" id="BoxShape3D_xayyb"]
 size = Vector3(0.96, 0.96, 0.96)
 
-[node name="Ballast" type="RigidBody3D" unique_id=675537873]
+[node name="Ballast" type="RigidBody3D" unique_id=1933952136]
 mass = 40.0
 script = ExtResource("1_yjq1j")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1340431677]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=596834662]
 material_override = SubResource("StandardMaterial3D_xmqjd")
 mesh = SubResource("BoxMesh_t6l13")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=226216628]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=627448240]
 shape = SubResource("BoxShape3D_xayyb")

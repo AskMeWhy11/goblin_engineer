@@ -28,6 +28,18 @@ const SHAKE_MAX := 20.0
 ## Seconds after launch during which shake is ignored (the machine settles on its wheels).
 const SHAKE_GRACE := 1.0
 
+## Pilot damage per unit of blast impulse that reaches the cabin.
+const PILOT_BLAST_DAMAGE := 0.06
+## Cabin velocity change within one tick (m/s) that does no harm, and damage per m/s above it.
+const PILOT_IMPACT_FREE := 4.0
+const PILOT_IMPACT_DAMAGE := 10.0
+## Anything below this height has fallen out of the world.
+const KILL_Y := -30.0
+## Parts closer to a blast than this share of its radius are torn off.
+const BLAST_TEAR_FRACTION := 0.35
+## Fuse of barrels and whistles caught in someone else's blast, seconds.
+const CHAIN_FUSE := 0.15
+
 const MOTOR_SPEED := 12.0          # rad/s at full input
 const MOTOR_MAX_IMPULSE := 40.0
 const WHEEL_BRAKE_IMPULSE := 40.0

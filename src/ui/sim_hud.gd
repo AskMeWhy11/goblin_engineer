@@ -30,6 +30,7 @@ func setup(session: LevelSession) -> void:
 	var box := UiKit.panel(top, 10)
 	UiKit.label(box, "%s — %s" % [session.level.title, session.level.task_text], 20, UiKit.ACCENT)
 	_timer_label = UiKit.label(box, "", 18)
+	UiKit.label(box, "Здоровье испытателя", 14, Color(1, 1, 1, 0.7))
 	_health_bar = ProgressBar.new()
 	_health_bar.custom_minimum_size = Vector2(360, 14)
 	_health_bar.show_percentage = false
@@ -57,6 +58,10 @@ func track(machine: Machine) -> void:
 	_status_label.text = ""
 	set_health(100.0)
 	machine.part_failed.connect(_on_part_failed)
+	var pilot := machine.pilot()
+	if pilot != null:
+		pilot.health_changed.connect(set_health)
+		pilot.died.connect(set_status.bind("Управление потеряно"))
 
 
 func set_health(value: float) -> void:
@@ -65,6 +70,10 @@ func set_health(value: float) -> void:
 
 func set_status(text: String) -> void:
 	_status_label.text = text
+
+
+func status_text() -> String:
+	return _status_label.text
 
 
 func _process(_delta: float) -> void:

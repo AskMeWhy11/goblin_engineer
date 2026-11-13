@@ -14,13 +14,13 @@ height = 0.96
 height = 0.96
 radius = 0.4
 
-[node name="SteeringHinge" type="RigidBody3D" unique_id=1811437820]
+[node name="SteeringHinge" type="RigidBody3D" unique_id=1884502666]
 mass = 6.0
 script = ExtResource("1_ptsbq")
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1590530754]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1904613296]
 material_override = SubResource("StandardMaterial3D_sh0ru")
 mesh = SubResource("CylinderMesh_c1dbp")
 
-[node name="Shape" type="CollisionShape3D" parent="." unique_id=1222104888]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1766225494]
 shape = SubResource("CylinderShape3D_j0md7")

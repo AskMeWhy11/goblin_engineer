@@ -4,6 +4,8 @@ extends Node3D
 ## touches joints, so the physical representation can change without rewriting the rest.
 
 signal part_failed(part: PartBody, mode: int, time: float)
+## For effects: an explosion with real blast power happened.
+signal exploded(position: Vector3, power: float, radius: float)
 
 var parts: Array[PartBody] = []
 var sim_time := 0.0
@@ -12,6 +14,8 @@ var rng := RandomNumberGenerator.new()
 
 ## Each link is [PartBody a, PartBody b, Joint3D joint].
 var _links: Array = []
+## Parts whose chain fuse is already burning.
+var _fused: Dictionary = {}
 
 
 func _physics_process(delta: float) -> void:
@@ -23,6 +27,11 @@ func core() -> PartBody:
 		if part.entry.part_id == Blueprint.CORE_ID:
 			return part
 	return null
+
+
+func pilot() -> Pilot:
+	var seat := core()
+	return seat.get_node_or_null("Pilot") as Pilot if seat != null else null
 
 
 func attached_parts() -> Array[PartBody]:
@@ -106,13 +115,91 @@ func apply_failure(part: PartBody, mode: int) -> void:
 		FailureMode.BREAK:
 			detach(part)
 		FailureMode.EXPLODE:
-			explode(part)
+			explode(part)  # emits part_failed itself
+			return
 	part_failed.emit(part, mode, sim_time)
 
 
-## Blows the part up. Until explosions are implemented this only detaches it.
+## Destroys the part and, if it has blast power, hits everything around it (design doc 6.1).
+## Safe to call twice: a destroyed part does nothing.
 func explode(part: PartBody) -> void:
-	detach(part)
+	if part.state == PartBody.State.DESTROYED:
+		return
+	var center := part.global_position
+	var power := part.def.explosion_power
+	var radius := part.def.explosion_radius
+	_remove_links_of(part)
+	part.state = PartBody.State.DESTROYED
+	part.visible = false
+	part.collision_layer = 0
+	part.collision_mask = 0
+	part.freeze = true
+	part.process_mode = Node.PROCESS_MODE_DISABLED
+	update_layers()
+	part_failed.emit(part, FailureMode.EXPLODE, sim_time)
+	if power <= 0.0 or radius <= 0.0:
+		return
+	exploded.emit(center, power, radius)
+
+	for other in parts:
+		if other == part or other.state == PartBody.State.DESTROYED:
+			continue
+		var distance := center.distance_to(other.global_position)
+		if distance >= radius:
+			continue
+		_push(other, center, power * (1.0 - distance / radius))
+		if other.is_attached() and distance < radius * SimTuning.BLAST_TEAR_FRACTION:
+			apply_failure(other, FailureMode.BREAK)
+		if other.detonates_in_chain() and not _fused.has(other):
+			_fused[other] = true
+			_light_fuse(other)
+
+	var seat := core()
+	var goblin := pilot()
+	if seat != null and goblin != null and seat != part:
+		seat.call(&"skip_next_impact")
+		goblin.take_damage(Pilot.explosion_damage(power, radius, center.distance_to(seat.global_position)))
+
+	_blast_world(center, power, radius)
+
+
+func _push(body: RigidBody3D, center: Vector3, impulse: float) -> void:
+	var direction := body.global_position - center
+	direction = direction.normalized() if direction.length() > 0.01 else Vector3.UP
+	body.apply_central_impulse(direction * impulse)
+
+
+## The fuse is a child node, so it dies with the machine and never fires into freed parts.
+func _light_fuse(part: PartBody) -> void:
+	var fuse := Timer.new()
+	fuse.one_shot = true
+	fuse.wait_time = SimTuning.CHAIN_FUSE
+	fuse.timeout.connect(func() -> void:
+		fuse.queue_free()
+		explode(part))
+	add_child(fuse)
+	fuse.start()
+
+
+## Pushes loose bodies of the level (cargo, projectiles) and damages destructible targets.
+func _blast_world(center: Vector3, power: float, radius: float) -> void:
+	if not is_inside_tree():
+		return
+	var shape := SphereShape3D.new()
+	shape.radius = radius
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = shape
+	query.transform = Transform3D(Basis.IDENTITY, center)
+	query.collision_mask = Layers.WORLD | Layers.DEBRIS
+	for hit in get_world_3d().direct_space_state.intersect_shape(query, 64):
+		var body := hit.collider as Node3D
+		if body == null or body is PartBody:
+			continue
+		var strength := power * maxf(0.0, 1.0 - center.distance_to(body.global_position) / radius)
+		if body.is_in_group(&"destructible"):
+			body.call(&"take_hit", strength)
+		if body is RigidBody3D and not (body as RigidBody3D).freeze:
+			_push(body, center, strength)
 
 
 func _remove_links_of(part: PartBody) -> void:

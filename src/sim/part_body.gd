@@ -57,6 +57,11 @@ func malfunction_text() -> String:
 	return "вышла из строя"
 
 
+## True for parts that go off when caught in another explosion (barrels, whistles).
+func detonates_in_chain() -> bool:
+	return false
+
+
 ## Called after all joints of this part were removed.
 func on_detached() -> void:
 	pass
