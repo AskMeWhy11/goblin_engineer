@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/levels/level_01.gd" id="1"]
+[ext_resource type="Script" path="res://src/sim/objectives/reach_zone_objective.gd" id="2"]
 
 [node name="Level01" type="Node3D"]
 script = ExtResource("1")
@@ -10,3 +11,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 
 [node name="Objective" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
+script = ExtResource("2")
+radius = 4.0

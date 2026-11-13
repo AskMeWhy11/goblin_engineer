@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/level_02.gd" id="1"]
+[ext_resource type="Script" path="res://src/sim/objectives/deliver_cargo_objective.gd" id="2"]
+
+[node name="Level02" type="Node3D"]
+script = ExtResource("1")
+
+[node name="BuildOrigin" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+
+[node name="Objective" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
+script = ExtResource("2")
+radius = 4.0

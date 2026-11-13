@@ -8,12 +8,14 @@ var machine: Machine
 var camera: OrbitCamera
 var controller: MachineController
 var failures: FailureSystem
+var objective: Objective
 
 var _session: LevelSession
 
 
 func setup(session: LevelSession) -> void:
 	_session = session
+	objective = session.level_root.get_node_or_null("Objective") as Objective
 	camera = OrbitCamera.new()
 	camera.extra_drag_button = MOUSE_BUTTON_RIGHT
 	camera.distance = 16.0
@@ -41,6 +43,8 @@ func start(seed: int) -> void:
 	camera.pivot = origin
 	camera.make_current()
 	camera.update_transform()
+	if objective != null:
+		objective.start(machine)
 	machine_started.emit(machine)
 
 
@@ -52,6 +56,8 @@ func stop() -> void:
 		machine = null
 		controller = null
 		failures = null
+		if objective != null:
+			objective.reset()
 
 
 ## Tints the failed part for a second and floats a caption above it for two.

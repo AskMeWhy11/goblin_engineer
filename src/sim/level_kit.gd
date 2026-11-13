@@ -55,6 +55,42 @@ static func log_z(parent: Node, radius: float, length: float, pos: Vector3, colo
 	return body
 
 
+static func _fill_box(body: Node3D, size: Vector3, color: Color) -> void:
+	var shape := CollisionShape3D.new()
+	var bs := BoxShape3D.new()
+	bs.size = size
+	shape.shape = bs
+	body.add_child(shape)
+	var mesh := MeshInstance3D.new()
+	var bm := BoxMesh.new()
+	bm.size = size
+	mesh.mesh = bm
+	mesh.material_override = material(color)
+	body.add_child(mesh)
+
+
+## A loose box (cargo).
+static func crate(parent: Node, node_name: String, size: Vector3, pos: Vector3, mass: float, color: Color) -> RigidBody3D:
+	var body := RigidBody3D.new()
+	body.name = node_name
+	body.mass = mass
+	body.position = pos
+	_fill_box(body, size, color)
+	parent.add_child(body)
+	return body
+
+
+## One piece of a destructible target.
+static func destructible(parent: Node, size: Vector3, pos: Vector3, mass: float, toughness: float, color: Color) -> Destructible:
+	var body := Destructible.new()
+	body.mass = mass
+	body.toughness = toughness
+	body.position = pos
+	_fill_box(body, size, color)
+	parent.add_child(body)
+	return body
+
+
 ## Sun, sky colour and ambient light.
 static func lighting(parent: Node) -> void:
 	var sun := DirectionalLight3D.new()
