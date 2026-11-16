@@ -121,7 +121,7 @@ func _build_launch(root: Control) -> void:
 	var box := UiKit.panel(holder, 10)
 	launch_button = UiKit.button(box, "Запуск (Tab)", func() -> void: _session.enter_sim(), 280)
 	blocker_label = UiKit.label(box, "", 16, UiKit.WARN)
-	var help := UiKit.label(box, "ЛКМ — поставить · ПКМ — удалить\nR / T — повернуть · 1 2 3 — качество\nСКМ или WASD, Q/E — камера", 14, Color(UiKit.TEXT, 0.75))
+	var help := UiKit.label(box, "ЛКМ — поставить · ПКМ — удалить\nR / T — повернуть · 1 2 3 — качество\nCtrl+Z — отменить · Del — убрать выбранную\nСКМ или WASD, Q/E — камера", 14, Color(UiKit.TEXT, 0.75))
 	help.custom_minimum_size = Vector2(280, 0)
 
 
@@ -138,6 +138,7 @@ func _build_right(root: Control) -> void:
 	column.add_theme_constant_override("separation", 10)
 	holder.add_child(column)
 	part_panel = PartPanel.new()
+	part_panel.before_edit.connect(_build.checkpoint)
 	part_panel.entry_edited.connect(func(entry: BlueprintEntry) -> void:
 		_build.refresh_entry(entry)
 		_on_entry_selected(entry))

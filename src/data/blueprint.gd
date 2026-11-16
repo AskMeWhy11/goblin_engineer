@@ -37,6 +37,21 @@ func remove_at(cell: Vector3i) -> void:
 		entries.erase(e)
 
 
+## A deep copy of the entries, for undo.
+func snapshot() -> Array[BlueprintEntry]:
+	var copies: Array[BlueprintEntry] = []
+	for e in entries:
+		copies.append(e.copy())
+	return copies
+
+
+## Replaces the entries with copies of a snapshot (the snapshot stays reusable).
+func restore(saved: Array[BlueprintEntry]) -> void:
+	entries.clear()
+	for e in saved:
+		entries.append(e.copy())
+
+
 func clear() -> void:
 	entries.clear()
 	entries.append(_core_entry())

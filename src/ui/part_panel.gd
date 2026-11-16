@@ -2,6 +2,8 @@ class_name PartPanel
 extends PanelContainer
 ## Properties of the selected machine part: quality, keys, inversion.
 
+## Emitted right before the entry is changed, so the editor can save an undo step.
+signal before_edit
 signal entry_edited(entry: BlueprintEntry)
 
 var entry: BlueprintEntry
@@ -42,7 +44,7 @@ func _rebuild() -> void:
 	UiKit.tag(_box, _def.display_name)
 	for i in _def.tiers.size():
 		var tier := _def.tiers[i]
-		var b := UiKit.button(_box, "%s — %d" % [tier.display_name, _def.price(i)], _set_tier.bind(i), 220)
+		var b := UiKit.button(_box, "%s — %d" % [tier.display_name, _def.price(i)], set_tier.bind(i), 220)
 		b.toggle_mode = true
 		b.button_pressed = i == entry.tier
 	if _def.activation != PartDef.Activation.NONE:
@@ -57,6 +59,7 @@ func _rebuild() -> void:
 			invert.add_theme_color_override("font_hover_color", UiKit.TEXT)
 			invert.button_pressed = entry.inverted
 			invert.toggled.connect(func(on: bool) -> void:
+				before_edit.emit()
 				entry.inverted = on
 				entry_edited.emit(entry))
 			_box.add_child(invert)
@@ -68,7 +71,8 @@ func _key_text(title: String, key: Key, slot: int) -> String:
 	return "%s: %s" % [title, OS.get_keycode_string(key) if key != KEY_NONE else "—"]
 
 
-func _set_tier(tier: int) -> void:
+func set_tier(tier: int) -> void:
+	before_edit.emit()
 	entry.tier = tier
 	entry_edited.emit(entry)
 	_rebuild()
@@ -84,6 +88,7 @@ func _input(event: InputEvent) -> void:
 		return
 	var key: Key = event.physical_keycode
 	if key != KEY_ESCAPE:
+		before_edit.emit()
 		if _capturing == 1:
 			entry.key_positive = key
 		else:
