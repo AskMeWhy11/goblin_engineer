@@ -5,6 +5,7 @@ class_name PartTable
 ## rates: failures per second at "Хлам" quality — x malfunction, y break, z explode.
 ## boom: [impulse N*s, radius m]. faces: local mount normals, [] = all six.
 ## base: local normal of the mount face (defaults to the only face when there is one).
+## The look of each part is built in tools/part_models.gd; shape and size here are the physics shape.
 ## shape: box | sphere | cyl_x | cyl_y | cyl_z; size: box extents, or (radius, height, _) for cylinders.
 
 ## Quality tiers shared by every part except the core.

@@ -23,7 +23,7 @@ static func build(bp: Blueprint, catalog: Dictionary, origin: Transform3D) -> Ma
 		part.mass = def.mass
 		part.name = "Part_%d_%d_%d" % [entry.cell.x, entry.cell.y, entry.cell.z]
 		part.transform = origin * Transform3D(Orientations.basis(entry.orientation), Vector3(entry.cell))
-		PartVisuals.tint_tier(part, entry.tier)
+		PartVisuals.apply_tier(part, entry.tier)
 		machine.add_part(part)
 		by_cell[entry.cell] = part
 

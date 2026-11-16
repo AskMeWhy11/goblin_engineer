@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PartDef" format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/parts/motor_wheel.tscn" id="1_4uqm5"]
+[ext_resource type="PackedScene" path="res://scenes/parts/motor_wheel.scn" id="1_4uqm5"]
 [ext_resource type="Script" path="res://src/data/part_def.gd" id="2_2knht"]
 [ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_rogfc"]
 

@@ -1,5 +1,5 @@
 extends SceneTree
-## Writes data/parts/<id>.tres and scenes/parts/<id>.tscn from PartTable.
+## Writes data/parts/<id>.tres and scenes/parts/<id>.scn from PartTable.
 ## Run through tools/generate_parts.ps1.
 
 
@@ -8,7 +8,7 @@ func _initialize() -> void:
 	DirAccess.make_dir_recursive_absolute("res://scenes/parts")
 	var failed := false
 	for row: Dictionary in PartTable.PARTS:
-		var scene_path := "res://scenes/parts/%s.tscn" % row.id
+		var scene_path := "res://scenes/parts/%s.scn" % row.id
 		var err := ResourceSaver.save(_build_scene(row), scene_path)
 		if err != OK:
 			print("GEN FAIL scene %s: %d" % [row.id, err])
@@ -63,74 +63,44 @@ func _build_scene(row: Dictionary) -> PackedScene:
 		script_path = "res://src/sim/part_body.gd"
 	body.set_script(load(script_path))
 
-	var material := StandardMaterial3D.new()
-	material.albedo_color = row.color
+	# Look: one merged, outlined mesh for the body and one wear kit per quality tier.
 	var mesh := MeshInstance3D.new()
 	mesh.name = "Mesh"
+	mesh.mesh = PartModels.body(row.id).mesh()
+	_own(body, mesh)
+	var tier_count := 1 if row.get("single_tier", false) else PartTable.TIERS.size()
+	for tier in tier_count:
+		var kit := MeshInstance3D.new()
+		kit.name = "Tier%d" % tier
+		var wear := PartModels.wear(row.shape, row.size, tier)
+		if not wear.items.is_empty():
+			kit.mesh = wear.mesh()
+		kit.visible = tier == 0
+		_own(body, kit)
+
+	# Physics: the simple shape from the table.
 	var shape := CollisionShape3D.new()
 	shape.name = "Shape"
 	var size: Vector3 = row.size
 	match row.shape:
 		"box":
-			var bm := BoxMesh.new()
-			bm.size = size
-			mesh.mesh = bm
 			var bs := BoxShape3D.new()
 			bs.size = size
 			shape.shape = bs
 		"sphere":
-			var sm := SphereMesh.new()
-			sm.radius = size.x
-			sm.height = size.x * 2.0
-			mesh.mesh = sm
 			var ss := SphereShape3D.new()
 			ss.radius = size.x
 			shape.shape = ss
 		_:
-			var cm := CylinderMesh.new()
-			cm.top_radius = size.x
-			cm.bottom_radius = size.x
-			cm.height = size.y
-			mesh.mesh = cm
 			var cs := CylinderShape3D.new()
 			cs.radius = size.x
 			cs.height = size.y
 			shape.shape = cs
-			var rot := Vector3.ZERO
 			if row.shape == "cyl_x":
-				rot = Vector3(0, 0, deg_to_rad(90))
+				shape.rotation = Vector3(0, 0, deg_to_rad(90))
 			elif row.shape == "cyl_z":
-				rot = Vector3(deg_to_rad(90), 0, 0)
-			mesh.rotation = rot
-			shape.rotation = rot
-	mesh.material_override = material
-	_own(body, mesh)
+				shape.rotation = Vector3(deg_to_rad(90), 0, 0)
 	_own(body, shape)
-
-	# Mount stub: shows which side attaches (parts with a single mount face).
-	for face: Vector3i in row.faces:
-		var stub := MeshInstance3D.new()
-		stub.name = "Mount"
-		var sm := BoxMesh.new()
-		sm.size = Vector3(0.3, 0.3, 0.3)
-		stub.mesh = sm
-		stub.position = Vector3(face) * 0.35
-		var grey := StandardMaterial3D.new()
-		grey.albedo_color = Color(0.15, 0.15, 0.15)
-		stub.material_override = grey
-		_own(body, stub)
-	# Marker: shows the working direction (+Z) of rockets and cannons.
-	if row.has("marker"):
-		var tip := MeshInstance3D.new()
-		tip.name = "Tip"
-		var tm := BoxMesh.new()
-		tm.size = Vector3(0.25, 0.25, 0.12)
-		tip.mesh = tm
-		tip.position = row.marker
-		var white := StandardMaterial3D.new()
-		white.albedo_color = Color(0.95, 0.95, 0.9)
-		tip.material_override = white
-		_own(body, tip)
 
 	var packed := PackedScene.new()
 	packed.pack(body)

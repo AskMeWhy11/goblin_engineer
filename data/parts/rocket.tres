@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PartDef" format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/parts/rocket.tscn" id="1_v1m41"]
+[ext_resource type="PackedScene" path="res://scenes/parts/rocket.scn" id="1_v1m41"]
 [ext_resource type="Script" path="res://src/data/part_def.gd" id="2_pxibe"]
 [ext_resource type="Script" path="res://src/data/quality_tier.gd" id="3_87bdd"]
 
