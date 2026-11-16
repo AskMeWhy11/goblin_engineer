@@ -13,9 +13,13 @@ var _capturing := 0
 
 
 func _init() -> void:
+	add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	var back := WoodBackdrop.new()
+	back.seed_value = 404
+	add_child(back)
 	var margin := MarginContainer.new()
 	for side in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 12)
+		margin.add_theme_constant_override("margin_" + side, 18)
 	add_child(margin)
 	_box = VBoxContainer.new()
 	_box.add_theme_constant_override("separation", 6)
@@ -35,7 +39,7 @@ func show_entry(new_entry: BlueprintEntry, def: PartDef) -> void:
 func _rebuild() -> void:
 	for child in _box.get_children():
 		child.free()
-	UiKit.label(_box, _def.display_name, 22, UiKit.ACCENT)
+	UiKit.tag(_box, _def.display_name)
 	for i in _def.tiers.size():
 		var tier := _def.tiers[i]
 		var b := UiKit.button(_box, "%s — %d" % [tier.display_name, _def.price(i)], _set_tier.bind(i), 220)
@@ -48,6 +52,9 @@ func _rebuild() -> void:
 			var invert := CheckBox.new()
 			invert.text = "Инверсия"
 			invert.focus_mode = Control.FOCUS_NONE
+			invert.add_theme_color_override("font_color", UiKit.TEXT)
+			invert.add_theme_color_override("font_pressed_color", UiKit.TEXT)
+			invert.add_theme_color_override("font_hover_color", UiKit.TEXT)
 			invert.button_pressed = entry.inverted
 			invert.toggled.connect(func(on: bool) -> void:
 				entry.inverted = on

@@ -33,15 +33,20 @@ func setup(session: LevelSession, build: BuildMode) -> void:
 	build.blueprint_changed.connect(refresh)
 	build.entry_selected.connect(_on_entry_selected)
 	build.hover_changed.connect(_on_hover)
+	build.tier_selected.connect(_show_tier)
 	_select_part(null)
 	refresh()
+
+
+func tier_buttons() -> Array[Button]:
+	return _tier_buttons
 
 
 func refresh() -> void:
 	var report := RiskCalculator.evaluate(_session.blueprint, PartCatalog.defs)
 	var level := _session.level
 	budget_label.text = "Бюджет: %d / %d" % [report.cost, level.budget]
-	budget_label.add_theme_color_override("font_color", UiKit.WARN if report.cost > level.budget else Color.WHITE)
+	budget_label.add_theme_color_override("font_color", UiKit.WARN if report.cost > level.budget else UiKit.TEXT)
 	_budget_bar.max_value = level.budget
 	_budget_bar.value = minf(report.cost, level.budget)
 	risk_bar.show_report(report, level.risk_min)
@@ -61,13 +66,13 @@ func _build_palette(root: Control) -> void:
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(column)
 	var box := UiKit.panel(column, 10)
-	UiKit.label(box, "Детали", 20, UiKit.ACCENT)
+	UiKit.tag(box, "Детали")
 	_palette_button(box, null, "Выбор")
 	for id in _session.level.allowed_parts:
 		var def := PartCatalog.get_def(id)
 		if def != null:
 			_palette_button(box, def, def.display_name)
-	UiKit.label(box, "Качество", 20, UiKit.ACCENT)
+	UiKit.tag(box, "Качество")
 	var names := ["1 · Добротная", "2 · Сойдёт", "3 · Хлам"]
 	for i in 3:
 		var b := UiKit.button(box, names[i], _select_tier.bind(i), 220)
@@ -97,6 +102,7 @@ func _build_top(root: Control) -> void:
 	UiKit.label(box, "%s — %s" % [_session.level.title, _session.level.task_text], 20, UiKit.ACCENT)
 	budget_label = UiKit.label(box, "", 18)
 	_budget_bar = ProgressBar.new()
+	UiKit.style_bar(_budget_bar, UiKit.ACCENT)
 	_budget_bar.show_percentage = false
 	_budget_bar.custom_minimum_size = Vector2(420, 12)
 	box.add_child(_budget_bar)
@@ -115,7 +121,7 @@ func _build_launch(root: Control) -> void:
 	var box := UiKit.panel(holder, 10)
 	launch_button = UiKit.button(box, "Запуск (Tab)", func() -> void: _session.enter_sim(), 280)
 	blocker_label = UiKit.label(box, "", 16, UiKit.WARN)
-	var help := UiKit.label(box, "ЛКМ — поставить · ПКМ — удалить\nR / T — повернуть · 1 2 3 — качество\nСКМ или WASD, Q/E — камера", 14, Color(1, 1, 1, 0.7))
+	var help := UiKit.label(box, "ЛКМ — поставить · ПКМ — удалить\nR / T — повернуть · 1 2 3 — качество\nСКМ или WASD, Q/E — камера", 14, Color(UiKit.TEXT, 0.75))
 	help.custom_minimum_size = Vector2(280, 0)
 
 
@@ -152,6 +158,10 @@ func _select_part(def: PartDef) -> void:
 
 func _select_tier(tier: int) -> void:
 	_build.selected_tier = tier
+
+
+## Keeps the quality buttons in step with BuildMode, whoever changed the tier.
+func _show_tier(tier: int) -> void:
 	for i in _tier_buttons.size():
 		_tier_buttons[i].button_pressed = i == tier
 

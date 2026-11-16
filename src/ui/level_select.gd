@@ -12,13 +12,13 @@ func _ready() -> void:
 	box.add_child(row)
 	for level in Game.levels:
 		_card(row, level)
-	UiKit.button(box, "Назад", Game.goto_main_menu)
+	UiKit.button(box, "Назад", Game.goto_main_menu).size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 
 
 func _card(parent: Node, level: LevelDef) -> void:
 	var card := UiKit.panel(parent)
 	card.custom_minimum_size = Vector2(300, 0)
-	UiKit.label(card, level.title, 28, UiKit.ACCENT)
+	UiKit.tag(card, level.title, 24)
 	var task := UiKit.label(card, level.task_text, 18)
 	task.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	task.custom_minimum_size = Vector2(280, 56)

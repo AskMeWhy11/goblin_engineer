@@ -23,7 +23,7 @@ func setup(session: LevelSession) -> void:
 	holder.add_theme_constant_override("margin_right", 24)
 	root.add_child(holder)
 	var box := UiKit.panel(holder, 18)
-	UiKit.label(box, "Задача выполнена!", 34, UiKit.ACCENT)
+	UiKit.tag(box, "Задача выполнена!", 28)
 	_text = UiKit.label(box, "", 18)
 	_text.custom_minimum_size = Vector2(420, 0)
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

@@ -23,6 +23,10 @@ func _run() -> void:
 	var frames := int(OS.get_environment("SHOT_FRAMES")) if OS.has_environment("SHOT_FRAMES") else 30
 	for _i in frames:
 		await get_tree().process_frame
+	print("SHOT fps=%d draw_calls=%d primitives=%d frame_ms=%.2f" % [Engine.get_frames_per_second(),
+			Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),
+			Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME),
+			Performance.get_monitor(Performance.TIME_PROCESS) * 1000.0])
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_png(OS.get_environment("SHOT_OUT"))
 	print("SHOT saved ", OS.get_environment("SHOT_OUT"))

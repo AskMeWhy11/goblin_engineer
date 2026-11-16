@@ -84,8 +84,10 @@ class Kit:
 		var m := SphereMesh.new()
 		m.radius = radius
 		m.height = radius * 2.0
-		m.radial_segments = 12
-		m.rings = 6
+		# Rivets and nail heads are tiny: a handful of triangles is enough.
+		var small := radius < 0.06
+		m.radial_segments = 6 if small else 12
+		m.rings = 3 if small else 6
 		return _add(m, pos, color, Vector3.ZERO)
 
 	## A torus around local Y.

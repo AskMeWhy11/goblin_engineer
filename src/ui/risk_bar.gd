@@ -13,6 +13,8 @@ func _init() -> void:
 	custom_minimum_size = Vector2(420, 52)
 	_label = Label.new()
 	_label.add_theme_font_size_override("font_size", 18)
+	_label.add_theme_color_override("font_outline_color", UiKit.INK)
+	_label.add_theme_constant_override("outline_size", 4)
 	add_child(_label)
 
 
@@ -26,13 +28,13 @@ func show_report(report: RiskReport, risk_min: float) -> void:
 	caption = "Риск: %s из %s %%/с" % [UiKit.percent(report.total()), UiKit.percent(risk_min)]
 	_label.text = caption
 	var enough := report.total() >= risk_min - 1e-9
-	_label.add_theme_color_override("font_color", Color.WHITE if enough else UiKit.WARN)
+	_label.add_theme_color_override("font_color", UiKit.TEXT if enough else UiKit.WARN)
 	queue_redraw()
 
 
 func _draw() -> void:
 	var bar := Rect2(0, 28, size.x, 20)
-	draw_rect(bar, Color(0, 0, 0, 0.5))
+	draw_rect(bar.grow(2.0), UiKit.INK)
 	var total: float = _parts[0] + _parts[1] + _parts[2]
 	var full := maxf(_risk_min * 2.0, total * 1.15)
 	if full <= 0.0:
@@ -44,4 +46,4 @@ func _draw() -> void:
 		draw_rect(Rect2(x, bar.position.y, w, bar.size.y), colors[i])
 		x += w
 	var mark := _risk_min / full * bar.size.x
-	draw_line(Vector2(mark, bar.position.y - 4), Vector2(mark, bar.end.y + 4), Color.WHITE, 3.0)
+	draw_line(Vector2(mark, bar.position.y - 4), Vector2(mark, bar.end.y + 4), UiKit.TEXT, 3.0)

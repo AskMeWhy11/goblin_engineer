@@ -30,8 +30,9 @@ func setup(session: LevelSession) -> void:
 	var box := UiKit.panel(top, 10)
 	UiKit.label(box, "%s — %s" % [session.level.title, session.level.task_text], 20, UiKit.ACCENT)
 	_timer_label = UiKit.label(box, "", 18)
-	UiKit.label(box, "Здоровье испытателя", 14, Color(1, 1, 1, 0.7))
+	UiKit.label(box, "Здоровье испытателя", 14, Color(UiKit.TEXT, 0.75))
 	_health_bar = ProgressBar.new()
+	UiKit.style_bar(_health_bar, Color("6fb04a"))
 	_health_bar.custom_minimum_size = Vector2(360, 14)
 	_health_bar.show_percentage = false
 	_health_bar.max_value = 100.0
@@ -45,10 +46,10 @@ func setup(session: LevelSession) -> void:
 	left.add_theme_constant_override("margin_bottom", 12)
 	root.add_child(left)
 	var log_box := UiKit.panel(left, 10)
-	UiKit.label(log_box, "Журнал отказов", 18, UiKit.ACCENT)
+	UiKit.tag(log_box, "Журнал отказов")
 	_log_label = UiKit.label(log_box, "", 16)
 	_log_label.custom_minimum_size = Vector2(420, 0)
-	UiKit.label(log_box, "Tab — в сборку · F5 — повтор с тем же зерном · ПКМ — камера", 14, Color(1, 1, 1, 0.7))
+	UiKit.label(log_box, "Tab — в сборку · F5 — повтор с тем же зерном · ПКМ — камера", 14, Color(UiKit.TEXT, 0.75))
 
 
 func track(machine: Machine) -> void:

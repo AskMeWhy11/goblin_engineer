@@ -111,3 +111,11 @@ func test_over_budget_blocks_launch() -> void:
 	assert_eq(s.launch_blocker(), "Бюджет превышен на 110")
 	assert_true(s.build_hud.launch_button.disabled)
 	_close()
+
+
+func test_quality_buttons_follow_the_selected_tier() -> void:
+	var s := _open()
+	s.build_mode.selected_tier = 2
+	var pressed: Array = s.build_hud.tier_buttons().map(func(b: Button) -> bool: return b.button_pressed)
+	assert_eq(pressed, [false, false, true])
+	_close()
